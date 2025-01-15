@@ -29,7 +29,7 @@ func (r *categoryResolver) Courses(ctx context.Context, obj *model.Category) ([]
 
 // Category is the resolver for the category field.
 func (r *courseResolver) Category(ctx context.Context, obj *model.Course) (*model.Category, error) {
-	category, err := r.CategoryDB.FindByID(obj.CategoryID)
+	category, err := r.CategoryDB.FindByCourseID(obj.ID)
 	if err != nil {
 		return nil, err
 	}
