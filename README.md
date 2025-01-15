@@ -1,0 +1,102 @@
+# Introdução ao GraphQL - GraphQL Go
+
+Este repositório contém uma implementação de exemplo de uma API GraphQL utilizando Go (Golang). Aqui, você encontrará exemplos práticos de como construir e utilizar uma API GraphQL com a linguagem Go.
+
+## Tecnologias Utilizadas
+
+- **Go (Golang)**: Linguagem de programação utilizada para construir a API.
+- **GraphQL**: Linguagem de consulta para APIs.
+- **Gqlgen**: Ferramenta utilizada para gerar código GraphQL em Go.
+
+## Vantagens do GraphQL
+
+1. **Consulta flexível**: Os clientes podem especificar exatamente quais dados precisam, reduzindo o volume de dados transferidos.
+2. **Single Endpoint**: Diferentemente do REST, onde diferentes recursos podem ter endpoints separados, o GraphQL utiliza um único endpoint para interagir com a API.
+3. **Tipos Fortes**: GraphQL utiliza um sistema de tipos para definir a forma dos dados que podem ser consultados, garantindo que as consultas são validadas antes de serem executadas.
+4. **Documentação Automatizada**: A descrição do esquema de tipos serve como documentação automática da API.
+
+## Conceitos Básicos
+
+### Schema
+
+O schema é o coração de uma API GraphQL. Ele define a forma dos dados que podem ser consultados e como esses dados estão relacionados. Um schema é composto por tipos, que definem a estrutura dos objetos e as operações que podem ser realizadas.
+
+### Tipos
+
+- **Query**: O ponto de entrada para ler dados.
+- **Mutation**: O ponto de entrada para modificar dados.
+- **Subscription**: Permite que os clientes recebam dados em tempo real.
+
+### Exemplos de Tipos
+
+```graphql
+# Definição de um tipo simples
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+# Definição de uma Query
+
+type Query {
+  users: [User]
+  user(id: ID!): User
+}
+
+# Definição de uma Mutation
+
+type Mutation {
+  createUser(name: String!, email: String!): User
+}
+```
+
+### Resolvers
+
+Os resolvers são funções que lidam com as operações definidas no schema. Cada campo no schema tem um resolver correspondente que fornece os dados para aquele campo.
+
+### Exemplo de Resolver
+
+```go
+package main
+
+import (
+  "context"
+)
+
+type Resolver struct{}
+
+func (r *Resolver) Query_users(ctx context.Context) ([]*User, error) {
+  return getUsers(), nil
+}
+
+func (r *Resolver) Query_user(ctx context.Context, id string) (*User, error) {
+  return getUserById(id), nil
+}
+
+func (r *Resolver) Mutation_createUser(ctx context.Context, name string, email string) (*User, error) {
+  return createUser(name, email), nil
+}
+```
+
+## Ferramentas e Ecossistema
+
+- **Gqlgen**: Ferramenta que facilita a criação de servidores GraphQL em Go.
+- **GraphiQL**: Uma ferramenta de interface de usuário para testar e explorar APIs GraphQL.
+
+## Como Começar
+
+1. **Definir o Schema**: Crie um arquivo para definir os tipos e as operações que sua API irá suportar.
+2. **Implementar Resolvers**: Desenvolva as funções que retornam os dados solicitados pelos clientes.
+3. **Configurar o Servidor**: Use o gqlgen para configurar e iniciar o servidor GraphQL.
+4. **Explorar e Testar**: Utilize ferramentas como GraphiQL para testar e validar suas consultas e mutações.
+
+## Conclusão
+
+GraphQL é uma poderosa alternativa ao REST, oferecendo consultas flexíveis, um esquema tipado e um ecossistema robusto. Com uma boa compreensão de seus conceitos e ferramentas, você pode criar APIs eficientes e bem documentadas que atendem às necessidades específicas de seus clientes.
+
+## Repositório
+
+Para mais detalhes e exemplos de implementação, consulte o repositório [graphql-go](https://github.com/arthurlopesr/graphql-go).
+
