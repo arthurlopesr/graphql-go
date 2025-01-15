@@ -30,55 +30,63 @@ O schema é o coração de uma API GraphQL. Ele define a forma dos dados que pod
 ### Exemplos de Tipos
 
 ```graphql
-# Definição de um tipo simples
-
-type User {
-  id: ID!
-  name: String!
-  email: String!
+mutation createCategories {
+  createCategory(input: {name: "Test", description: "Test"}) {
+    id
+    name
+    description
+  }
 }
 
-# Definição de uma Query
-
-type Query {
-  users: [User]
-  user(id: ID!): User
+mutation createCourse {
+  createCourse(input: {name: "Test", description: "Test", categoryId: "7bf7cdea-1f85-43d0-aabe-38238188f0bd"}) {
+    id
+    name
+  }
 }
 
-# Definição de uma Mutation
+query queryCategories {
+  categories {
+    id
+    name
+    description
+  }
+}
 
-type Mutation {
-  createUser(name: String!, email: String!): User
+query queryCategoriesWithCourses {
+  categories {
+    id
+    name
+    courses {
+      id
+      name
+    }
+  }
+}
+
+query queryCourses {
+  courses {
+    id
+    name
+  }
+}
+
+query queryCoursesWithCategory {
+  courses {
+    id
+    name
+    category {
+      id
+      name
+      description
+    }
+  }
 }
 ```
 
 ### Resolvers
 
 Os resolvers são funções que lidam com as operações definidas no schema. Cada campo no schema tem um resolver correspondente que fornece os dados para aquele campo.
-
-### Exemplo de Resolver
-
-```go
-package main
-
-import (
-  "context"
-)
-
-type Resolver struct{}
-
-func (r *Resolver) Query_users(ctx context.Context) ([]*User, error) {
-  return getUsers(), nil
-}
-
-func (r *Resolver) Query_user(ctx context.Context, id string) (*User, error) {
-  return getUserById(id), nil
-}
-
-func (r *Resolver) Mutation_createUser(ctx context.Context, name string, email string) (*User, error) {
-  return createUser(name, email), nil
-}
-```
 
 ## Ferramentas e Ecossistema
 
